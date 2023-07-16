@@ -84,21 +84,39 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
-      - name: Deploy to App Runner
-        run: |
-          aws apprunner create-service \
-            --region ${{ secrets.AWS_REGION }} \
-            --service-name app-runner-service \
-            --source-configuration "ImageRepositoryType=ECR ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/server:latest" \
-            --instance-configuration "InstanceRoleArn=${{ secrets.ROLE_ARN }}"
+      - name: Deploy server to App Runner
+        id: deploy-server-apprunner
+        uses: awslabs/amazon-app-runner-deploy@main        
+        with:
+          service: app-runner-image-deploy-service
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN_SERVER }}
+          repo: https://github.com/${{ github.repository }}
+          branch: ${{ github.ref }}
+          image: ${{ steps.build-server-image.outputs.image }}          
+          access-role-arn: ${{ secrets.ROLE_ARN }}
+          runtime: NODEJS_12          
+          region: ${{ secrets.AWS_REGION }}
+          cpu: 1
+          memory: 2
+          port: 3000
+          wait-for-service-stability: true
      
       - name: Deploy to App Runner
-        run: |
-          aws apprunner create-service \
-            --region ${{ secrets.AWS_REGION }} \
-            --service-name app-runner-service \
-            --source-configuration "ImageRepositoryType=ECR ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/client:latest" \
-            --instance-configuration "InstanceRoleArn=${{ secrets.ROLE_ARN }}"
+        id: deploy-client-apprunner
+        uses: awslabs/amazon-app-runner-deploy@main        
+        with:
+          service: app-runner-image-deploy-service
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN_CLIENT }}
+          repo: https://github.com/${{ github.repository }}
+          branch: ${{ github.ref }}
+          image: ${{ steps.build-client-image.outputs.image }}          
+          access-role-arn: ${{ secrets.ROLE_ARN }}
+          runtime: NODEJS_12          
+          region: ${{ secrets.AWS_REGION }}
+          cpu: 1
+          memory: 2
+          port: 5173
+          wait-for-service-stability: true
       
       - name: App Runner output
         run: echo "App runner output ${{ steps.deploy-client-apprunner.outputs.service-id }}"
