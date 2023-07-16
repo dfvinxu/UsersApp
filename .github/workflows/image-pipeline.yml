@@ -73,8 +73,7 @@ jobs:
   deploy-to-apprunner:
     needs: [deploy-server, deploy-client]
     runs-on: ubuntu-latest
-    id: deploy-apprunner
-    
+        
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
