@@ -89,6 +89,7 @@ jobs:
         uses: awslabs/amazon-app-runner-deploy@main        
         with:
           service: app-runner-image-deploy-service
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN_SERVER }}
           image: ${{ steps.build-server-image.outputs.image }}          
           access-role-arn: ${{ secrets.ROLE_ARN }}
           runtime: NODEJS_12          
@@ -103,6 +104,7 @@ jobs:
         uses: awslabs/amazon-app-runner-deploy@main        
         with:
           service: app-runner-image-deploy-service
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN_CLIENT }}
           image: ${{ steps.build-client-image.outputs.image }}          
           access-role-arn: ${{ secrets.ROLE_ARN }}
           runtime: NODEJS_12          
