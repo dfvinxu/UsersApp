@@ -94,7 +94,9 @@ jobs:
           branch: ${{ github.ref }}
           image: ${{ steps.build-server-image.outputs.image }}          
           access-role-arn: ${{ secrets.ROLE_ARN }}
-          runtime: NODEJS_12          
+          runtime: NODEJS_12
+          build-command: npm install
+          start-command: npm start         
           region: ${{ secrets.AWS_REGION }}
           cpu: 1
           memory: 2
@@ -111,7 +113,9 @@ jobs:
           branch: ${{ github.ref }}
           image: ${{ steps.build-client-image.outputs.image }}          
           access-role-arn: ${{ secrets.ROLE_ARN }}
-          runtime: NODEJS_12          
+          runtime: NODEJS_12
+          build-command: npm install
+          start-command: npm run dev
           region: ${{ secrets.AWS_REGION }}
           cpu: 1
           memory: 2
