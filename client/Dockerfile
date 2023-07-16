@@ -5,13 +5,13 @@ FROM node:14
 WORKDIR /app/client
 
 # Copia los archivos del cliente a la imagen del contenedor
-COPY /github/workspace/client/package*.json ./
+COPY client/package*.json ./
 
 # Instala las dependencias del cliente
 RUN npm install
 
 # Copia el código fuente del cliente a la imagen del contenedor
-COPY /github/workspace/client .
+COPY client .
 
 # Establece una variable de entorno para el puerto del cliente
 ENV PORT=5173
