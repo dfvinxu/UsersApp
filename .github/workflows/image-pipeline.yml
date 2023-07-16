@@ -90,7 +90,7 @@ jobs:
           aws apprunner create-service \
             --region ${{ secrets.AWS_REGION }} \
             --service-name server-app-runner \
-            --source-configuration "ImageRepositoryType=ECR ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/server:latest" \
+            --source-configuration "ImageRepository=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/server:latest" \
             --instance-configuration "InstanceRoleArn=${{ secrets.ROLE_ARN }}"
       
       - name: Deploy client to App Runner
@@ -98,8 +98,8 @@ jobs:
         run: |
           aws apprunner create-service \
             --region ${{ secrets.AWS_REGION }} \
-            --service-name client-app-runner \
-            --source-configuration "ImageRepositoryType=ECR ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/client:latest" \
+            --service-name server-app-runner \
+            --source-configuration "ImageRepository=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/server:latest" \
             --instance-configuration "InstanceRoleArn=${{ secrets.ROLE_ARN }}"
       
       - name: Output service URLs
