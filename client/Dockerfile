@@ -5,13 +5,13 @@ FROM node:14
 WORKDIR /app
 
 # Copia los archivos del cliente a la imagen del contenedor
-COPY package*.json ./app
+COPY package*.json ./app/
 
 # Instala las dependencias del cliente
 RUN npm install
 
 # Copia el código fuente del cliente a la imagen del contenedor
-COPY . ./app
+COPY . ./app/
 
 # Establece una variable de entorno para el puerto del cliente
 ENV PORT=5173
