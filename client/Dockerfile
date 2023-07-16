@@ -21,3 +21,4 @@ EXPOSE $PORT
 
 # Comando para iniciar el entorno de desarrollo del cliente
 CMD ["sh", "-c", "npm run dev -- --port $PORT --host 0.0.0.0"]
+

@@ -5,13 +5,13 @@ FROM node:14
 WORKDIR /app/server
 
 # Copia los archivos del servidor a la imagen del contenedor
-COPY server/package*.json ./
+COPY package*.json ./
 
 # Instala las dependencias del servidor
 RUN npm install
 
 # Copia el código fuente del servidor a la imagen del contenedor
-COPY server .
+COPY . .
 
 # Establece una variable de entorno para el puerto del servidor
 ENV PORT=3000
