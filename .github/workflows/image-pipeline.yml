@@ -89,7 +89,7 @@ jobs:
         uses: awslabs/amazon-app-runner-deploy@main        
         with:
           service: app-runner-image-deploy-service
-          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN_SERVER }}
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN }}
           repo: https://github.com/${{ github.repository }}
           branch: ${{ github.ref }}
           image: ${{ steps.build-server-image.outputs.image }}          
@@ -108,7 +108,7 @@ jobs:
         uses: awslabs/amazon-app-runner-deploy@main        
         with:
           service: app-runner-image-deploy-service
-          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN_CLIENT }}
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN }}
           repo: https://github.com/${{ github.repository }}
           branch: ${{ github.ref }}
           image: ${{ steps.build-client-image.outputs.image }}          
